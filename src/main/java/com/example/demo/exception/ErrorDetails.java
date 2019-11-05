@@ -2,12 +2,22 @@ package com.example.demo.exception;
 
 import java.util.Date;
 
+/**
+ * @version 1.0
+ * @author praveen.verma
+ *
+ */
 public class ErrorDetails {
 	
 	private Date timestamp;
     private String message;
     private String details;
 
+    /**
+     * @param timestamp
+     * @param message
+     * @param details
+     */
     public ErrorDetails(Date timestamp, String message, String details) {
          super();
          this.timestamp = timestamp;

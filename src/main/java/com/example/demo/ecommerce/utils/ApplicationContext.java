@@ -1,6 +1,7 @@
 package com.example.demo.ecommerce.utils;
 
 /**
+ * @version 1.0
  * @author praveen.verma 
  * ApplicationContext for global use messages.
  */
@@ -16,7 +17,10 @@ public class ApplicationContext {
 	 */
 	public static final String USER_NOT_FOUND = "User does not exist for this id : ";
 
-	// For JSON Response here
+	
+	//----------------------------
+   //	 For JSON Response here
+	//----------------------------
 	/**
 	 * For product id
 	 */

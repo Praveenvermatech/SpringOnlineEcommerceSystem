@@ -11,16 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
@@ -39,6 +35,7 @@ import com.example.demo.ecommerce.serviceImpl.UserCartServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
+ * @version 1.0
  * @author praveen.verma
  *
  */
@@ -51,7 +48,7 @@ public class CartControllerTest {
 	final String userId = "praveen@hcl.com"; // USER_ID
 	final String rootUrl = "/online-ecommerce/cart"; // Root URL
 	Products product;
-	Cart cart ;
+	Cart cart;
 	CartRequest cartRequest;
 	@Autowired
 	MockMvc mockMvc;
@@ -59,7 +56,7 @@ public class CartControllerTest {
 	@MockBean
 	UserCartServiceImpl UserCartServiceImpl;
 	List<Products> listOfProducts = new ArrayList<Products>();
-	
+
 	/**
 	 * setUpProduct here | Created fake product Object for given Operations.
 	 */
@@ -77,9 +74,9 @@ public class CartControllerTest {
 		listOfProducts.add(product);
 		// dummy object for mock
 		cart = new Cart(1L, 256000.00, userId, listOfProducts);
-		
+
 		cartRequest = new CartRequest(product.getProductId(), userId);
-		
+
 	}
 
 	/**
@@ -103,10 +100,10 @@ public class CartControllerTest {
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		int status = result.getResponse().getStatus();
 		// Check STATUS == 200
-		assertEquals(STATUS_CODE_SUCCESSFULLY, status); 
+		assertEquals(STATUS_CODE_SUCCESSFULLY, status);
 		MockHttpServletResponse response = result.getResponse();
 		// Check HTTP STATUS is OK
-		assertEquals(HttpStatus.OK.value(), response.getStatus()); 
+		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
 
 	/**
@@ -120,17 +117,18 @@ public class CartControllerTest {
 	public void testGetCartDetails() throws Exception {
 		String requestUrl = "/getCartDetails";
 		// Mock here
-		Mockito.when(UserCartServiceImpl.getUserCartDetails(Mockito.anyString())).thenReturn(convertObjectToJsonString(cart));
+		Mockito.when(UserCartServiceImpl.getUserCartDetails(Mockito.anyString()))
+				.thenReturn(convertObjectToJsonString(cart));
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(rootUrl + "" + requestUrl + "/" + userId)
 				.accept(MediaType.APPLICATION_JSON);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		System.out.println("GetCartDetails mock response: " + result.getResponse().getContentAsString());
 		// expected and actual output is true
-		JSONAssert.assertEquals(convertObjectToJsonString(cart), result.getResponse().getContentAsString(), true);  
+		JSONAssert.assertEquals(convertObjectToJsonString(cart), result.getResponse().getContentAsString(), true);
 		int status = result.getResponse().getStatus();
 		// Check STATUS == 200
-		assertEquals(STATUS_CODE_SUCCESSFULLY, status); 
+		assertEquals(STATUS_CODE_SUCCESSFULLY, status);
 
 		/*
 		 * MvcResult mvcResult = mockMvc .perform(MockMvcRequestBuilders.get(rootUrl +
@@ -162,7 +160,7 @@ public class CartControllerTest {
 				.andExpect(status().isOk()).andReturn();
 		int status = mvcResult.getResponse().getStatus();
 		// Check STATUS == 200
-		assertEquals(STATUS_CODE_SUCCESSFULLY, status); 
+		assertEquals(STATUS_CODE_SUCCESSFULLY, status);
 	}
 
 	/**
@@ -176,8 +174,9 @@ public class CartControllerTest {
 	public void testDeleteProductFromCart() throws Exception {
 		String requestUrl = "/deleteProductFromCart";
 		// Mock here
-		Mockito.when(UserCartServiceImpl.deleteSingleProductFromUserCart(cartRequest, product.getProductId())).thenReturn(convertObjectToJsonString(cart));		
-		
+		Mockito.when(UserCartServiceImpl.deleteSingleProductFromUserCart(cartRequest, product.getProductId()))
+				.thenReturn(convertObjectToJsonString(cart));
+
 		MvcResult mvcResult = mockMvc
 				.perform(MockMvcRequestBuilders.delete(rootUrl + "" + requestUrl + "/" + product.getProductId())
 						.content(convertObjectToJsonString(product)).contentType(MediaType.APPLICATION_JSON)
@@ -185,8 +184,8 @@ public class CartControllerTest {
 				.andExpect(status().isOk()).andReturn();
 
 		int status = mvcResult.getResponse().getStatus();
-		 // Check STATUS == 200
-		assertEquals(STATUS_CODE_SUCCESSFULLY, status); 
+		// Check STATUS == 200
+		assertEquals(STATUS_CODE_SUCCESSFULLY, status);
 		System.out.println("Delete product from cart | mock response: " + mvcResult.getResponse().getContentAsString());
 	}
 
@@ -201,19 +200,20 @@ public class CartControllerTest {
 	public void testDeleteAllProductFromCart() throws Exception {
 		String requestUrl = "/deleteAllProductFromCart";
 		// Mock here
-		Mockito.when(UserCartServiceImpl.deleteAllProductFromUserCart(Mockito.anyString())).thenReturn(convertObjectToJsonString(cart));		
-			
+		Mockito.when(UserCartServiceImpl.deleteAllProductFromUserCart(Mockito.anyString()))
+				.thenReturn(convertObjectToJsonString(cart));
+
 		MvcResult mvcResult = mockMvc
 				.perform(MockMvcRequestBuilders.delete(rootUrl + "" + requestUrl + "/" + userId)
 						.content(convertObjectToJsonString(product)).contentType(MediaType.APPLICATION_JSON)
 						.characterEncoding("utf-8").accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk()).andReturn();
 
-		int status = mvcResult.getResponse().getStatus(); 
+		int status = mvcResult.getResponse().getStatus();
 		// Check STATUS == 200
-		assertEquals(STATUS_CODE_SUCCESSFULLY, status); 
+		assertEquals(STATUS_CODE_SUCCESSFULLY, status);
 		// Expected and actual output is true
-		JSONAssert.assertEquals(convertObjectToJsonString(cart), mvcResult.getResponse().getContentAsString(), true);  
+		JSONAssert.assertEquals(convertObjectToJsonString(cart), mvcResult.getResponse().getContentAsString(), true);
 	}
 
 	/***

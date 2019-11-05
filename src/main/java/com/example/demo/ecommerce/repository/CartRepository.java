@@ -9,9 +9,9 @@ import com.example.demo.ecommerce.model.Cart;
 
 
 /***
- * CartRepository interface contains the JPA Repository
+ * @version 1.0
  * @author praveen.verma
- *
+ * CartRepository interface contains the JPA Repository
  */
 public interface CartRepository extends JpaRepository<Cart, Long> {
 

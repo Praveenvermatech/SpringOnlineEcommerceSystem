@@ -11,7 +11,8 @@
 2. Spring Embedded Database
 ---------------------------------------
 1. Technology used : H2-Db
-
+  
+   UI URL: http://localhost:8085/h2-console
 
 ---------------------------------------
 3. Swagger2 

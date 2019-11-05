@@ -162,6 +162,7 @@ public class UserCartServiceImpl implements UserCartService {
 			String userId = cartRequest.getUserId();
 			double cartItemsPrice = 0;
 			List<Cart> cart = cartRepository.findByUserIdCart(userId);
+			cart.get(0).setProducts(productRepository.findByUserIdProduct(userId));
 			List<Products> productList = cart.get(0).getProducts();
 			obj = new JSONObject();
 			try {

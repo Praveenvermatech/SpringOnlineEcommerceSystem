@@ -11,14 +11,12 @@
 2. Spring Embedded Database
 ---------------------------------------
 1. Technology used : H2-Db
-  
-   UI URL: http://localhost:8085/h2-console
+     UI URL: http://localhost:8085/h2-console
 
 ---------------------------------------
 3. Swagger2 
 ---------------------------------------
 1. UI Request URL: http://localhost:8085/swagger-ui.html
-
 
 ---------------------------------------
 4. JUNIT Test case with Code Coverage (Eclemma Tool)

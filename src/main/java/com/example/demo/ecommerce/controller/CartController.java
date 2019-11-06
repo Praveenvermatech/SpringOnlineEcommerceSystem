@@ -46,10 +46,10 @@ public class CartController {
 	 * @throws ResourceNotFoundException 
 	 */
 	@Transactional
-	@PostMapping("/addProductsToCart/{userId}")
-	public Products addProductInCart(@RequestBody Products products, @PathVariable String userId) throws ResourceNotFoundException {
+	@PostMapping("/addProduct/{userId}")
+	public Products addProduct(@RequestBody Products products, @PathVariable String userId) throws ResourceNotFoundException {
 
-		Products product = userCartService.addProductToUserCart(products, userId);
+		Products product = userCartService.addProduct(products, userId);
 		return product;
 	}
 
@@ -66,11 +66,11 @@ public class CartController {
 		    @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
 		    @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
 	})
-	@GetMapping("/getCartDetails/{userId}")
+	@GetMapping("/getDetails/{userId}")
 	@Transactional
-	public String getCartDetails(@PathVariable String userId) throws ResourceNotFoundException {
+	public String getDetails(@PathVariable String userId) throws ResourceNotFoundException {
 		
-		String jsonObject = userCartService.getUserCartDetails(userId);
+		String jsonObject = userCartService.getDetails(userId);
 		
 		return jsonObject;
 		
@@ -85,8 +85,8 @@ public class CartController {
 	 * @return Products
 	 * @throws ResourceNotFoundException
 	 */
-	@PutMapping("/updateProductToCart/{id}")
-	public ResponseEntity<Products> updateProductToCart(@PathVariable(value = "id") Long productId,
+	@PutMapping("/update/{id}")
+	public ResponseEntity<Products> update(@PathVariable(value = "id") Long productId,
 			@Valid @RequestBody Products updateProduct) throws ResourceNotFoundException {
 		ResponseEntity<Products> productData = userCartService.updateProductToUserCart(productId, updateProduct);
 		return productData;
@@ -100,8 +100,8 @@ public class CartController {
 	 * @return jsonString
 	 * @throws ResourceNotFoundException
 	 */
-	@DeleteMapping("/deleteProductFromCart/{id}")
-	public String deleteProductFromCart(@RequestBody CartRequest cartRequest, @PathVariable(value = "id") Long productId)
+	@DeleteMapping("/delete/{id}")
+	public String delete(@RequestBody CartRequest cartRequest, @PathVariable(value = "id") Long productId)
 			throws ResourceNotFoundException {
 			String jsonString = userCartService.deleteSingleProductFromUserCart(cartRequest, productId);
 			return jsonString;	
@@ -113,8 +113,8 @@ public class CartController {
 	 * @return jsonString
 	 * @throws ResourceNotFoundException
 	 */
-	@DeleteMapping("/deleteAllProductFromCart/{id}")
-	public String deleteAllProductFromCart(@PathVariable(value = "id") String userId)
+	@DeleteMapping("/deleteAll/{id}")
+	public String deleteAll(@PathVariable(value = "id") String userId)
 			throws ResourceNotFoundException {
 			String jsonString = userCartService.deleteAllProductFromUserCart(userId);
 			return jsonString;

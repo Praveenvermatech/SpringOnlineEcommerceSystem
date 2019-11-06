@@ -20,14 +20,14 @@ public interface UserCartService {
 	 * @return
 	 * @throws ResourceNotFoundException
 	 */
-	public Products addProductToUserCart(Products products,String userId) throws ResourceNotFoundException;
+	public Products addProduct(Products products,String userId) throws ResourceNotFoundException;
 	
 	/**
 	 * @param userId
 	 * @return
 	 * @throws ResourceNotFoundException
 	 */
-	public String getUserCartDetails(String userId) throws ResourceNotFoundException ;
+	public String getDetails(String userId) throws ResourceNotFoundException ;
 	
 	/**
 	 * @param productId

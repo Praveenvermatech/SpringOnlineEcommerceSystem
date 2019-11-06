@@ -62,6 +62,7 @@ public class CartControllerTest {
 	 */
 	@Before
 	public void setUpProduct() {
+		
 		product = new Products();
 		product.setProductId(1221);
 		product.setProductName("Samsung Glaxy A8+");
@@ -81,17 +82,17 @@ public class CartControllerTest {
 
 	/**
 	 * Test method for add product in cart
-	 * {@link com.example.demo.ecommerce.controller.CartController#addProductInCart(com.example.demo.ecommerce.model.Products, java.lang.String)}.
+	 * {@link com.example.demo.ecommerce.controller.CartController#addProduct(com.example.demo.ecommerce.model.Products, java.lang.String)}.
 	 * 
 	 * @throws Exception
 	 */
 	@Test
 	public void testAddProductInCart() throws Exception {
 
-		String requestUrl = "/addProductsToCart";
+		String requestUrl = "/addProduct";
 		String inputJson = convertObjectToJsonString(product);
 		// Mock here
-		Mockito.when(UserCartServiceImpl.addProductToUserCart(product, userId)).thenReturn(product);
+		Mockito.when(UserCartServiceImpl.addProduct(product, userId)).thenReturn(product);
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post(rootUrl + "" + requestUrl + "/" + userId)
 				.contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson).characterEncoding("utf-8")
@@ -108,50 +109,40 @@ public class CartControllerTest {
 
 	/**
 	 * Test method for get Cart Details
-	 * {@link com.example.demo.ecommerce.controller.CartController#getCartDetails(java.lang.String)}.
+	 * {@link com.example.demo.ecommerce.controller.CartController#getDetails(java.lang.String)}.
 	 * 
 	 * @throws Exception
 	 */
 
 	@Test
 	public void testGetCartDetails() throws Exception {
-		String requestUrl = "/getCartDetails";
+		String requestUrl = "/getDetails";
 		// Mock here
-		Mockito.when(UserCartServiceImpl.getUserCartDetails(Mockito.anyString()))
+		Mockito.when(UserCartServiceImpl.getDetails(Mockito.anyString()))
 				.thenReturn(convertObjectToJsonString(cart));
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(rootUrl + "" + requestUrl + "/" + userId)
 				.accept(MediaType.APPLICATION_JSON);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-		System.out.println("GetCartDetails mock response: " + result.getResponse().getContentAsString());
+		
 		// expected and actual output is true
 		JSONAssert.assertEquals(convertObjectToJsonString(cart), result.getResponse().getContentAsString(), true);
 		int status = result.getResponse().getStatus();
 		// Check STATUS == 200
 		assertEquals(STATUS_CODE_SUCCESSFULLY, status);
-
-		/*
-		 * MvcResult mvcResult = mockMvc .perform(MockMvcRequestBuilders.get(rootUrl +
-		 * "" + requestUrl + "/" + userId)
-		 * .content(asJsonString(product)).contentType(MediaType.APPLICATION_JSON)
-		 * .characterEncoding("utf-8").accept(MediaType.APPLICATION_JSON))
-		 * .andExpect(status().isOk()).andReturn();
-		 * 
-		 * int status = mvcResult.getResponse().getStatus(); assertEquals(200, status);
-		 */
-
+	
 	}
 
 	/**
 	 * Test method for update product to cart.
-	 * {@link com.example.demo.ecommerce.controller.CartController#updateProductToCart(java.lang.Long, com.example.demo.ecommerce.model.Products)}.
+	 * {@link com.example.demo.ecommerce.controller.CartController#update(java.lang.Long, com.example.demo.ecommerce.model.Products)}.
 	 * 
 	 * @throws Exception
 	 */
 
 	@Test
 	public void testUpdateProductToCart() throws Exception {
-		String requestUrl = "/updateProductToCart";
+		String requestUrl = "/update";
 
 		MvcResult mvcResult = mockMvc
 				.perform(MockMvcRequestBuilders.put(rootUrl + "" + requestUrl + "/" + product.getProductId())
@@ -165,14 +156,14 @@ public class CartControllerTest {
 
 	/**
 	 * Test method for delete single product from cart.
-	 * {@link com.example.demo.ecommerce.controller.CartController#deleteProductFromCart(com.example.demo.ecommerce.model.CartRequest, java.lang.Long)}.
+	 * {@link com.example.demo.ecommerce.controller.CartController#delete(com.example.demo.ecommerce.model.CartRequest, java.lang.Long)}.
 	 * 
 	 * @throws Exception
 	 */
 
 	@Test
 	public void testDeleteProductFromCart() throws Exception {
-		String requestUrl = "/deleteProductFromCart";
+		String requestUrl = "/delete";
 		// Mock here
 		Mockito.when(UserCartServiceImpl.deleteSingleProductFromUserCart(cartRequest, product.getProductId()))
 				.thenReturn(convertObjectToJsonString(cart));
@@ -191,14 +182,14 @@ public class CartControllerTest {
 
 	/**
 	 * Test method for delete All product from cart.
-	 * {@link com.example.demo.ecommerce.controller.CartController#deleteAllProductFromCart(java.lang.String)}.
+	 * {@link com.example.demo.ecommerce.controller.CartController#deleteAll(java.lang.String)}.
 	 * 
 	 * @throws Exception
 	 */
 
 	@Test
 	public void testDeleteAllProductFromCart() throws Exception {
-		String requestUrl = "/deleteAllProductFromCart";
+		String requestUrl = "/deleteAll";
 		// Mock here
 		Mockito.when(UserCartServiceImpl.deleteAllProductFromUserCart(Mockito.anyString()))
 				.thenReturn(convertObjectToJsonString(cart));

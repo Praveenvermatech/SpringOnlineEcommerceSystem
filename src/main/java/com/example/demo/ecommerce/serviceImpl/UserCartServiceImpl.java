@@ -39,7 +39,7 @@ public class UserCartServiceImpl implements UserCartService {
 	ProductRepository productRepository;
 
 	@Override
-	public Products addProductToUserCart(Products products, String userId) throws ResourceNotFoundException {
+	public Products addProduct(Products products, String userId) throws ResourceNotFoundException {
 		double totalCartPrice = 0;
 		List<Cart> cartList = cartRepository.findByUserIdCart(userId);
 		if (cartList.size() > 0) {
@@ -85,7 +85,7 @@ public class UserCartServiceImpl implements UserCartService {
 	}
 
 	@Override
-	public String getUserCartDetails(String userId) throws ResourceNotFoundException {
+	public String getDetails(String userId) throws ResourceNotFoundException {
 		List<Cart> cart = cartRepository.findByUserIdCart(userId);
 		JSONObject obj = null;
 		if (cart.size() > 0) {

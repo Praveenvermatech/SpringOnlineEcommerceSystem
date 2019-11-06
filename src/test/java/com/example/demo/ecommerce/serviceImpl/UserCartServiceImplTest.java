@@ -77,10 +77,10 @@ public class UserCartServiceImplTest {
 	public void testAddProductToUserCart() throws Exception {
 
 		// Product to be added in cart
-		Products productData = userCartServiceImpl.addProductToUserCart(product, USER_ID);
+		Products productData = userCartServiceImpl.addProduct(product, USER_ID);
 		org.junit.Assert.assertEquals(product.getProductId(), productData.getProductId());
 		// Another product added in cart
-		Products getProductData = userCartServiceImpl.addProductToUserCart(anotherProduct, USER_ID);
+		Products getProductData = userCartServiceImpl.addProduct(anotherProduct, USER_ID);
 		org.junit.Assert.assertEquals(getProductData.getProductId(), anotherProduct.getProductId());
 
 	}
@@ -91,10 +91,10 @@ public class UserCartServiceImplTest {
 	@Test
 	public void testGetUserCartDetails() throws Exception {
 
-		Products getProductData = userCartServiceImpl.addProductToUserCart(anotherProduct, USER_ID);
+		Products getProductData = userCartServiceImpl.addProduct(anotherProduct, USER_ID);
 		org.junit.Assert.assertEquals(getProductData.getProductId(), anotherProduct.getProductId());
 
-		String responseJson = userCartServiceImpl.getUserCartDetails(USER_ID);
+		String responseJson = userCartServiceImpl.getDetails(USER_ID);
 		org.junit.Assert.assertEquals(true, responseJson.contains("praveen@hcl.com"));
 		
 		
@@ -109,7 +109,7 @@ public class UserCartServiceImplTest {
 	public void testUpdateProductToUserCart() throws ResourceNotFoundException {
 
 		// Product to be added in cart
-		Products getProductData = userCartServiceImpl.addProductToUserCart(product, USER_ID);
+		Products getProductData = userCartServiceImpl.addProduct(product, USER_ID);
 		org.junit.Assert.assertEquals(getProductData.getProductId(), product.getProductId());
 
 		ResponseEntity<Products> productData = userCartServiceImpl.updateProductToUserCart(product.getProductId(),
@@ -150,7 +150,7 @@ public class UserCartServiceImplTest {
 	
 		// Fail Test case | Delete all product of given user after that get the cart details.
 		
-		String responseJsonData2 = userCartServiceImpl.getUserCartDetails(USER_ID);
+		String responseJsonData2 = userCartServiceImpl.getDetails(USER_ID);
 		org.junit.Assert.assertEquals(true, responseJsonData2.contains("praveen@hcl.com"));
 		
 				

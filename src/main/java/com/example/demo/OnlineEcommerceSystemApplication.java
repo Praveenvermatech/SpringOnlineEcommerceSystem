@@ -28,7 +28,7 @@ public class OnlineEcommerceSystemApplication {
 	 */
 	public static void main(String[] args) {
 		SpringApplication.run(OnlineEcommerceSystemApplication.class, args);
-		System.out.println("Start Application...");
+	//	System.out.println("Start Application...");
 	}
 
 	/**

@@ -45,12 +45,25 @@ public class Products implements Serializable{
     @JoinColumn
     private Cart cart;
 	
+	/**
+	 * Constructor
+	 */
 	public Products() {
 		// TODO Auto-generated constructor stub
 	}
 	
 	
 			
+	/**
+	 * @param productId
+	 * @param productName
+	 * @param price
+	 * @param productDescription
+	 * @param productAvailability
+	 * @param quantity
+	 * @param userId
+	 * @param cart
+	 */
 	public Products(long productId, String productName, double price, String productDescription,
 			String productAvailability, int quantity, String userId, Cart cart) {
 		super();

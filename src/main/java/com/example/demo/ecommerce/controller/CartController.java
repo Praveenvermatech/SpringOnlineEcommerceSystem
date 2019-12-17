@@ -3,7 +3,9 @@ package com.example.demo.ecommerce.controller;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +36,8 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/online-ecommerce/cart")
 public class CartController {
 
+	private static final Logger logger = Logger.getLogger(CartController.class);
+	
 	@Autowired
 	UserCartServiceImpl userCartService;
 
@@ -46,10 +50,15 @@ public class CartController {
 	 * @throws ResourceNotFoundException 
 	 */
 	@Transactional
-	@PostMapping("/addProduct/{userId}")
+	@PostMapping(path = "/addProduct/{userId}", 
+	consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE},
+	produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
 	public Products addProduct(@RequestBody Products products, @PathVariable String userId) throws ResourceNotFoundException {
 
 		Products product = userCartService.addProduct(products, userId);
+		if(product!=null) {
+			logger.info("Product add in cart successfully.");   // Logger info implemented here
+		}
 		return product;
 	}
 
@@ -66,7 +75,8 @@ public class CartController {
 		    @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
 		    @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
 	})
-	@GetMapping("/getDetails/{userId}")
+	@GetMapping(path = "/getDetails/{userId}",
+			produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
 	@Transactional
 	public String getDetails(@PathVariable String userId) throws ResourceNotFoundException {
 		
@@ -85,7 +95,9 @@ public class CartController {
 	 * @return Products
 	 * @throws ResourceNotFoundException
 	 */
-	@PutMapping("/update/{id}")
+	@PutMapping(path = "/update/{id}",
+			consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE},
+			produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<Products> update(@PathVariable(value = "id") Long productId,
 			@Valid @RequestBody Products updateProduct) throws ResourceNotFoundException {
 		ResponseEntity<Products> productData = userCartService.updateProductToUserCart(productId, updateProduct);
@@ -100,7 +112,8 @@ public class CartController {
 	 * @return jsonString
 	 * @throws ResourceNotFoundException
 	 */
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping(path = "/delete/{id}",
+			produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
 	public String delete(@RequestBody CartRequest cartRequest, @PathVariable(value = "id") Long productId)
 			throws ResourceNotFoundException {
 			String jsonString = userCartService.deleteSingleProductFromUserCart(cartRequest, productId);
@@ -113,7 +126,8 @@ public class CartController {
 	 * @return jsonString
 	 * @throws ResourceNotFoundException
 	 */
-	@DeleteMapping("/deleteAll/{id}")
+	@DeleteMapping(path = "/deleteAll/{id}",
+			produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
 	public String deleteAll(@PathVariable(value = "id") String userId)
 			throws ResourceNotFoundException {
 			String jsonString = userCartService.deleteAllProductFromUserCart(userId);

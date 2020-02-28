@@ -3,6 +3,7 @@ package com.example.demo.ecommerce.controller;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.ecommerce.model.CartRequest;
 import com.example.demo.ecommerce.model.Products;
 import com.example.demo.ecommerce.serviceImpl.UserCartServiceImpl;
+
 import com.example.demo.exception.ResourceNotFoundException;
 
 import io.swagger.annotations.Api;
@@ -27,7 +29,7 @@ import io.swagger.annotations.ApiResponses;
 
 /***
  * @version 1.0
- * @author praveen.verma 
+ *
  * CartController class contains the all API's like : addProductsToCart | getCartDetails | updateProductToCart | deleteProductFromCart | deleteAllProductFromCart
  */
 
@@ -36,11 +38,13 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/online-ecommerce/cart")
 public class CartController {
 
-	private static final Logger logger = Logger.getLogger(CartController.class);
+	private static final Logger logger = Logger.getLogger(CartController.class.getName());
 	
 	@Autowired
 	UserCartServiceImpl userCartService;
 
+	@Autowired
+	com.example.demo.Configuration config;
 	/**
 	 * This method contains the add product in cart For each user there will be a separate Cart in the database with unique cart id.
 	 * 
@@ -57,7 +61,7 @@ public class CartController {
 
 		Products product = userCartService.addProduct(products, userId);
 		if(product!=null) {
-			logger.info("Product add in cart successfully.");   // Logger info implemented here
+			logger.log(Level.INFO,"@@@ Product add in cart successfully.");   // Logger info implemented here
 		}
 		return product;
 	}
@@ -81,6 +85,16 @@ public class CartController {
 	public String getDetails(@PathVariable String userId) throws ResourceNotFoundException {
 		
 		String jsonObject = userCartService.getDetails(userId);
+		
+		if(!jsonObject.isEmpty()) {
+			logger.log(Level.INFO,"Product showing this user.");   // Logger info implemented here
+			System.out.println("@@@@ Product showing this user.");
+		}else {
+			logger.log(Level.INFO,"Product was not for this user.");
+			System.out.println("Product was not for this user.@@@@");
+		}
+		logger.log(Level.INFO,"Product @@@@@@."+jsonObject);  
+		logger.log(Level.INFO,"Property from config server ===>."+config.getMaximum());  
 		
 		return jsonObject;
 		

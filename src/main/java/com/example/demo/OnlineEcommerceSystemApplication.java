@@ -1,7 +1,9 @@
 package com.example.demo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -15,11 +17,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @version 1.0
- * @author praveen.verma
+ * 
  *
  */
 @SpringBootApplication
 @EnableSwagger2
+
 public class OnlineEcommerceSystemApplication {
 
 	/**
@@ -47,7 +50,7 @@ public class OnlineEcommerceSystemApplication {
 	private ApiInfo apiEndPointsInfo() {
 		return new ApiInfoBuilder().title("Spring Boot REST API")
 				.description("Online Ecommerce Cart REST API")
-				.contact(new Contact("Praveen Kumar Verma", "", "praveen.verma@hcl.com"))
+				.contact(new Contact("", "", ""))
 				.license("Apache 2.0")
 				.licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
 				.version("1.0.0")
